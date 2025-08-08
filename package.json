@@ -1,0 +1,22 @@
+{
+  "name": "silent-printer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "pdf-to-printer": "^5.6.0",
+    "puppeteer": "^24.16.0"
+  },
+  "bin": "index.js",
+  "pkg": {
+    "targets": [
+      "node18-win-x64",
+      "node18-linux-x64",
+      "node18-macos-x64",
+      "node18-linux-arm64",
+      "node18-macos-arm64"
+    ],
+    "outputPath": "dist"
+  }
+}
