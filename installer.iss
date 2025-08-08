@@ -5,7 +5,7 @@ DefaultDirName={pf}\Silent Printer
 DefaultGroupName=Silent Printer
 UninstallDisplayIcon={app}\silent-printer-node18-win-x64.exe
 OutputDir=dist
-OutputBaseFilename=SilentPrinterInstaller
+OutputBaseFilename=silent-printer-win-x64-installer
 Compression=lzma
 SolidCompression=yes
 

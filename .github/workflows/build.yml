@@ -57,13 +57,19 @@ jobs:
         if: matrix.ext == 'tar.gz'
         run: tar -czvf dist/silent-printer-${{ matrix.target }}.tar.gz -C dist silent-printer-${{ matrix.target }}
 
-      - name: Upload Release Asset
+      - name: Upload Windows Installer
+        if: matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: silent-printer-win-x64-installer
+          path: dist/silent-printer-win-x64-installer.exe
+
+      - name: Upload Linux/macOS Archives
+        if: matrix.ext == 'tar.gz'
         uses: actions/upload-artifact@v4
         with:
           name: silent-printer-${{ matrix.target }}
-          path: |
-            dist/*.exe
-            dist/*.tar.gz
+          path: dist/*.tar.gz
 
   release:
     needs: build
