@@ -55,7 +55,10 @@ jobs:
 
       - name: Decode PFX certificate
         if: matrix.os == 'windows-latest'
-        run: echo "${{ secrets.CERTIFICATE_PFX }}" | base64 -d > cert.pfx
+        shell: pwsh
+        run: |
+          $pfxBase64 = '${{ secrets.CERTIFICATE_PFX }}'
+          [IO.File]::WriteAllBytes('cert.pfx', [Convert]::FromBase64String($pfxBase64))
 
       - name: Sign Windows Installer
         if: matrix.os == 'windows-latest'
