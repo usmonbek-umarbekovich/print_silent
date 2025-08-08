@@ -45,6 +45,14 @@ jobs:
       - name: Build with pkg
         run: pkg . --targets ${{ matrix.target }} --output dist/silent-printer-${{ matrix.target }}
 
+      - name: Install Inno Setup
+        if: matrix.os == 'windows-latest'
+        run: choco install innosetup
+
+      - name: Create Windows Installer
+        if: matrix.os == 'windows-latest'
+        run: iscc installer.iss
+
       - name: Compress (Linux/Mac)
         if: matrix.ext == 'tar.gz'
         run: tar -czvf dist/silent-printer-${{ matrix.target }}.tar.gz -C dist silent-printer-${{ matrix.target }}
