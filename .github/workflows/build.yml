@@ -53,15 +53,6 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: iscc installer.iss
 
-      - name: Decode PFX certificate
-        if: matrix.os == 'windows-latest'
-        run: echo "${{ secrets.CERTIFICATE_PFX }}" | base64 -d > cert.pfx
-
-      - name: Sign Windows Installer
-        if: matrix.os == 'windows-latest'
-        run: |
-          signtool sign /f cert.pfx /p ${{ secrets.CERTIFICATE_PASSWORD }} /tr http://timestamp.digicert.com /td sha256 /fd sha256 dist/silent-printer-win-x64-installer.exe
-
       - name: Compress (Linux/Mac)
         if: matrix.ext == 'tar.gz'
         run: tar -czvf dist/silent-printer-${{ matrix.target }}.tar.gz -C dist silent-printer-${{ matrix.target }}
