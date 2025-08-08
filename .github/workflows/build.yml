@@ -67,7 +67,8 @@ jobs:
         run: |
           $paths = Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\bin\" -Directory | Sort-Object Name -Descending
           $latest = $paths[0].FullName
-          echo "path=$latest\x64\signtool.exe" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          $signtoolPath = Join-Path $latest "x64\signtool.exe"
+          echo "path=$signtoolPath" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
 
       - name: Sign Windows Installer
         if: matrix.os == 'windows-latest'
