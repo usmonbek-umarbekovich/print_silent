@@ -74,7 +74,7 @@ jobs:
         shell: pwsh
         run: |
           & "${{ steps.signtoolpath.outputs.path }}" sign /f cert.pfx /p ${{ secrets.CERTIFICATE_PASSWORD }} /tr http://timestamp.digicert.com /td sha256 /fd sha256 dist/silent-printer-win-x64-installer.exe
-
+ 
       - name: Upload Windows Installer
         if: matrix.os == 'windows-latest'
         uses: actions/upload-artifact@v4
