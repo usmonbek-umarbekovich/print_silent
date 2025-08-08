@@ -60,20 +60,14 @@ jobs:
           $pfxBase64 = '${{ secrets.CERTIFICATE_PFX }}'
           [IO.File]::WriteAllBytes('cert.pfx', [Convert]::FromBase64String($pfxBase64))
 
-      - name: Find signtool path
-        if: matrix.os == 'windows-latest'
-        id: signtoolpath
-        shell: pwsh
-        run: |
-          $paths = Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\bin\" -Directory | Sort-Object Name -Descending
-          $latest = $paths[0].FullName
-          Write-Output "##[set-output name=path;$latest\x64\signtool.exe"
-
       - name: Sign Windows Installer
         if: matrix.os == 'windows-latest'
-        shell: pwsh
         run: |
-          & "${{ steps.signtoolpath.outputs.path }}" sign /f cert.pfx /p ${{ secrets.CERTIFICATE_PASSWORD }} /tr http://timestamp.digicert.com /td sha256 /fd sha256 dist/silent-printer-win-x64-installer.exe
+          signtool sign /f cert.pfx /p ${{ secrets.CERTIFICATE_PASSWORD }} /tr http://timestamp.digicert.com /td sha256 /fd sha256 dist/silent-printer-win-x64-installer.exe
+
+      - name: Compress (Linux/Mac)
+        if: matrix.ext == 'tar.gz'
+        run: tar -czvf dist/silent-printer-${{ matrix.target }}.tar.gz -C dist silent-printer-${{ matrix.target }}
 
       - name: Upload Windows Installer
         if: matrix.os == 'windows-latest'
